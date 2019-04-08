@@ -1,7 +1,7 @@
 {
-  "name": "DDC-Commit-Hooks",
+  "name": "commit-Hooks",
   "version": "1.0.0",
-  "description": "Configurable pre commit setup",
+  "description": "Configurable commit hook setup",
   "main": "index.js",
   "scripts": {
     "test": "mocha **/spec/**.spec.js"
