@@ -1,5 +1,6 @@
 {
   "hooks": {
-    "pre-commit": "npm test && node ./pre-commit.js "
+    "pre-commit": "npm test && node ./pre-commit.js ",
+    "commit-msg": "node ./commit-msg.js"
   }
 }
