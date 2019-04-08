@@ -37,13 +37,13 @@ const message = {
   fileExists(filePath) {
     if (fs.existsSync(path.join(process.env.PWD, filePath))) {
       console.log(`${filePath} file exists`);
+      return true;
     } else {
       console.log(`${filePath} file does not exist`);
       process.exit(1);
     }
   },
   commitMessage(config) {
-    console.log(config);
     simpleGit.diffSummary(["--cached"], (err, result) => {
       this.handleDiffResult(err, result, config);
     });

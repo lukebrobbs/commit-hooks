@@ -1,5 +1,7 @@
 const { expect } = require("chai");
 const fs = require("fs");
+const filename = process.cwd();
+const simpleGit = require("simple-git")(filename);
 const sinon = require("sinon");
 const commitMessageFunctions = require("../commit-msg");
 
@@ -69,6 +71,20 @@ describe("commit-msg()", () => {
         maxFileSize: 2
       });
       expect(commitMessageFunctions.fileExists.called).to.be.false;
+    });
+  });
+  describe("fileExists()", () => {
+    it("Should call process exit if the file does not exist", () => {
+      sinon.stub(process, "exit");
+      sinon.stub(fs, "existsSync").returns(false);
+      commitMessageFunctions.fileExists("spec/commit-msg.spec.js");
+      expect(process.exit.calledWith(1)).to.be.true;
+      process.exit.restore();
+      fs.existsSync.restore();
+    });
+    it("Should return true if the file exists", () => {
+      expect(commitMessageFunctions.fileExists("spec/commit-msg.spec.js")).to.be
+        .true;
     });
   });
 });
