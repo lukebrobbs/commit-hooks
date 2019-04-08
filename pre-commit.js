@@ -1,5 +1,7 @@
 const fs = require("fs");
 const path = require("path");
+const defaults = require("./configDefaults");
+const conf = require("rc")("preCommit", defaults);
 const filename = process.cwd();
 const simpleGit = require("simple-git")(filename);
 
@@ -28,6 +30,7 @@ const message = {
     if (config.esLintCheck) {
       this.fileExists("/.eslintrc");
     }
+    console.log("All pre-commit checks passed");
   },
   fileExists(filePath) {
     if (fs.existsSync(path.join(process.env.PWD, filePath))) {
@@ -44,5 +47,7 @@ const message = {
     });
   }
 };
+
+message.commitMessage(conf);
 
 module.exports = message;

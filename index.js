@@ -1,9 +1,5 @@
-const conf = require("rc")("preCommit", {
-  lintFileCheck: false,
-  gitlabFileCheck: false,
-  esLintCheck: false,
-  maxFileSize: 2
-});
+const defaults = require("./configDefaults");
+const conf = require("rc")("preCommit", defaults);
 const { commitMessage } = require("./commit-msg");
 
 commitMessage(conf);
