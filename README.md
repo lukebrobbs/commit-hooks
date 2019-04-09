@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/lukebrobbs/commit-hooks.svg?style=svg)](https://circleci.com/gh/lukebrobbs/commit-hooks) &nbsp;&nbsp;&nbsp;[![codecov](https://codecov.io/gh/lukebrobbs/commit-hooks/branch/master/graph/badge.svg)](https://codecov.io/gh/lukebrobbs/commit-hooks)
 
-Allows the user to implement a number of tasks during git hooks, to ensure increased code quality.
+DDC-Commit-Hooks is designed to allow the implementation of pre-defined tasks to be implemented during git hooks. These tasks are intended to maximise code quality.
 
 ---
 
@@ -67,7 +67,7 @@ Any of these properties will work inside a `preCommit` key:
 | Property        | Type      | Default | Description                                        |
 | --------------- | --------- | ------- | -------------------------------------------------- |
 | **gitlabCi**    | `Boolean` | `false` | Checks for the presence of a `.gitlab-ci.yml` file |
-| **circleCi**    | `Boolean` | false   | Checks for the presence of a `.circleci` directory |
+| **circleCi**    | `Boolean` | `false` | Checks for the presence of a `.circleci` directory |
 | **esLintCheck** | `Boolean` | `false` | Checks for the presence of a `.eslintrc` file      |
 | **maxFileSize** | `Number`  | `2`     | Max size in mb allowed for any single file         |
 | **cypress**     | `String`  | `""`    | Directory of cypress tests if applicable           |

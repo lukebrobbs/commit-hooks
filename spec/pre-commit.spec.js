@@ -12,9 +12,9 @@ describe("pre-commit()", () => {
     let exit;
     before(() => {
       exitMock = sinon.stub(process, "exit");
-      sinon.spy(preCommitFunctions, "fileExists");
       statSyncMock = sinon.stub(fs, "statSync");
       readFileMock = sinon.stub(fs, "readFile");
+      sinon.spy(preCommitFunctions, "fileExists");
 
       mockResult = {
         files: [
@@ -98,6 +98,8 @@ describe("pre-commit()", () => {
       done();
     });
     it("If the config object contains a circleCi property, should call fileExists with the string '/.circleci'", done => {
+      preCommitFunctions.fileExists.restore();
+      sinon.stub(preCommitFunctions, "fileExists").returns(false);
       preCommitFunctions.handleDiffResult(null, mockResult, {
         preCommit: {
           maxFileSize: 2,
@@ -106,6 +108,9 @@ describe("pre-commit()", () => {
       });
       expect(preCommitFunctions.fileExists.calledOnceWith("/.circleci")).to.be
         .true;
+      expect(process.exit.called).to.be.true;
+      preCommitFunctions.fileExists.restore();
+      sinon.spy(preCommitFunctions, "fileExists");
       done();
     });
     it("If the config object does not contain a circleCi property, should not call fileExists with the string '/.circleci'", done => {
@@ -159,8 +164,10 @@ describe("pre-commit()", () => {
       fs.existsSync.restore();
     });
     it("Should return true if the file exists", () => {
+      sinon.stub(fs, "existsSync").returns(true);
       const result = preCommitFunctions.fileExists("spec/pre-commit.spec.js");
       expect(result).to.be.true;
+      fs.existsSync.restore();
     });
   });
 });
