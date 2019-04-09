@@ -20,7 +20,7 @@ const getCommitMessage = config => {
     process.exit(1);
     return;
   }
-  console.log(chalk.green("Commit-messages checks complete"));
+  console.log(chalk.green("All Commit message checks passed"));
 };
 
 module.exports = {
