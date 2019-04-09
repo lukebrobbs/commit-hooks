@@ -1,5 +1,5 @@
 {
-  "name": "commit-Hooks",
+  "name": "ddc-commit-hooks",
   "version": "1.0.0",
   "description": "Configurable commit hook setup",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "test": "mocha **/spec/**.spec.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Luke Brobbin & Joseph Berry",
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.2.0",
@@ -19,5 +19,13 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "simple-git": "^1.110.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukebrobbs/commit-hooks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lukebrobbs/commit-hooks/issues"
+  },
+  "homepage": "https://github.com/lukebrobbs/commit-hooks#readme"
 }
