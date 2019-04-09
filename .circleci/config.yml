@@ -28,7 +28,7 @@ jobs:
       - store_artifacts:
         path: mochawesome-report/
       - store_artifacts:
-          path: coverage/
+        path: coverage/
 
       # - run:
       #     name: Generate code coverage
