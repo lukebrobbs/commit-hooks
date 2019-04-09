@@ -8,7 +8,9 @@
     "test:report": "mocha --reporter mochawesome '**/spec/**.spec.js'",
     "test:cover": "nyc --reporter=lcov --reporter=text-lcov > coverage.lcov && codecov"
   },
-  "keywords": [],
+  "keywords": [
+    "Git"
+  ],
   "author": "Luke Brobbin & Joseph Berry",
   "license": "ISC",
   "bin": {
