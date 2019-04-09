@@ -12,6 +12,32 @@ Configurable commit hook setup to allow quick setup of git hook processes.
 npm install ddc-commit-hooks --save-dev
 ```
 
+## Run
+
+To run the package, add the following to your npm scripts:
+
+```sh
+ddc-commit
+```
+
+this can be followed by the following options :
+
+`-preCommit` - To run all user defined pre commit hooks
+
+`-commitMsg` - To run all user defined commit-message hooks
+
+It is recomended to use this package with [Husky](https://github.com/typicode/husky). Configuration would look as follows:
+
+```js
+// .huskyrc
+{
+  "hooks": {
+    "pre-commit": "npm test && ddc-commit -preCommit",
+    "commit-msg": "ssc-commit -commitMsg"
+  }
+}
+```
+
 ## Configuration
 
 To configure Hooks, create a `.commithooksrc` file.
@@ -50,8 +76,8 @@ Any of these properties will work inside a `preCommit` key:
 
 Any of these properties will work inside a `commitMsg` key, and will be run on the users commit message:
 
-| Property            | Type     | Default  | Description                                     |
-| ------------------- | -------- | -------- | ----------------------------------------------- |
-| **_glob_**          | `Regex`  | `/. * /` | Regex patter to check for in the commit title   |
-| **_maxLineLength_** | `Number` | `79`     | Set max line length allowed in a commit message |
-| **_titleLength_**   | `Number` | `25`     | Sets max length for a commit title              |
+| Property            | Type     | Default | Description                                     |
+| ------------------- | -------- | ------- | ----------------------------------------------- |
+| **_glob_**          | `Regex`  | `". *"` | Regex patter to check for in the commit title   |
+| **_maxLineLength_** | `Number` | `79`    | Set max line length allowed in a commit message |
+| **_titleLength_**   | `Number` | `25`    | Sets max length for a commit title              |
