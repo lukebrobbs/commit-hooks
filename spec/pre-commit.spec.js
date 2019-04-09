@@ -21,9 +21,10 @@ describe("pre-commit()", () => {
         ]
       };
     });
-    after(() => {
+    after(done => {
       process.exit.restore();
       preCommitFunctions.fileExists.restore();
+      done();
     });
     afterEach(() => {
       if (fs.statSync.restore) {
