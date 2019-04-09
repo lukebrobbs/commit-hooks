@@ -10,7 +10,7 @@
   "author": "Luke Brobbin & Joseph Berry",
   "license": "ISC",
   "bin": {
-    "ddc-commit": "./cli.js"
+    "ddc-commit": "./index.js"
   },
   "devDependencies": {
     "chai": "^4.2.0",

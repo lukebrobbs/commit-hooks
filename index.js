@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const defaults = require("./configDefaults");
 const conf = require("rc")("commithooks", defaults);
 const { getCommitMessage } = require("./commit-msg");
