@@ -8,8 +8,9 @@ describe("commit-msg()", () => {
     sinon.stub(process, "exit");
     global.process.env.HUSKY_GIT_PARAMS = "spec/pre-commit.spec.js";
   });
-  after(() => {
+  after((done) => {
     process.exit.restore();
+    done()
   });
   it("Should call process.exit with 1 if the commit message does not match the provided glob", done => {
     getCommitMessage({ commitMsg: { glob: /{a-c}/ } });
