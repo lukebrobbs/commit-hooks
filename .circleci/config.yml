@@ -31,7 +31,7 @@ jobs:
           path: mochawesome-report/
       - store_artifacts:
           path: coverage/
-       - codecov/upload:
+      - codecov/upload:
           file: coverage/
 
 workflows:
