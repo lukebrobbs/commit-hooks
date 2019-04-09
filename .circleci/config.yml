@@ -1,4 +1,6 @@
 version: 2
+orbs:
+  codecov: codecov/codecov@1.0.2
 jobs:
   build:
     working_directory: ~/commit-hooks
@@ -29,13 +31,8 @@ jobs:
           path: mochawesome-report/
       - store_artifacts:
           path: coverage/
-
-      # - run:
-      #     name: Generate code coverage
-      #     command: './node_modules/.bin/nyc report --reporter=text-lcov'
-      # - store_artifacts:
-      #     path: coverage
-      #     prefix: coverage
+       - codecov/upload:
+          file: coverage/
 
 workflows:
   version: 2

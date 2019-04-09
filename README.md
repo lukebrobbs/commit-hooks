@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/lukebrobbs/commit-hooks.svg?style=svg)](https://circleci.com/gh/lukebrobbs/commit-hooks)
 
+[![codecov](https://codecov.io/gh/lukebrobbs/commit-hooks/branch/master/graph/badge.svg)](https://codecov.io/gh/lukebrobbs/commit-hooks)
+
 Configurable commit hook setup to allow quick setup of git hook processes.
 
 ---
