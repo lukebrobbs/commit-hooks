@@ -26,9 +26,9 @@ jobs:
       - run: npm run test:report
       - run: npm run test:cover
       - store_artifacts:
-        path: mochawesome-report/
+          path: mochawesome-report/
       - store_artifacts:
-        path: coverage/
+          path: coverage/
 
       # - run:
       #     name: Generate code coverage
