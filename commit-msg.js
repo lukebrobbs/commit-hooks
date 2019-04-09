@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const fs = require("fs");
-const defaults = require("./configDefaults");
 const chalk = require("chalk");
+const readline = require("readline");
 
 const getCommitMessage = config => {
   console.log(chalk.cyan("Beginning commit message checks"));
@@ -20,6 +20,18 @@ const getCommitMessage = config => {
     process.exit(1);
     return;
   }
+
+  const rl = readline.createInterface({
+    input: fs.createReadStream(process.env.HUSKY_GIT_PARAMS),
+    crlfDelay: Infinity
+  });
+
+  rl.on("line", line => {
+    console.log(`Line from file: ${line}`);
+  });
+
+  process.exit(1);
+
   console.log(chalk.green("All Commit message checks passed"));
 };
 
