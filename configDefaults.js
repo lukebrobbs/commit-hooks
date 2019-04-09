@@ -7,7 +7,9 @@ const defaults = {
     robot: ""
   },
   commitMsg: {
-    commitMessageGlob: /.*/
+    glob: /.*/,
+    maxLineLength: 79,
+    titleLength: 25
   }
 };
 
