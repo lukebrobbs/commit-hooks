@@ -3,12 +3,11 @@
 const fs = require("fs");
 const defaults = require("./configDefaults");
 const chalk = require("chalk");
-const conf = require("rc")("preCommit", defaults);
 
 const getCommitMessage = config => {
   console.log(chalk.cyan("Beginning commit message checks"));
   // checks commit message contains provided glob pattern
-  const COMMIT_CONTRACT = config.commitMessageGlob;
+  const COMMIT_CONTRACT = config.commitMsg.commitMessageGlob;
   // gets the commit message from husky
   const message = fs.readFileSync(process.env.HUSKY_GIT_PARAMS, "utf8").trim();
   // tests message against the COMMIT_CONTRACT
@@ -23,8 +22,6 @@ const getCommitMessage = config => {
   }
   console.log(chalk.green("Commit-messages checks complete"));
 };
-
-getCommitMessage(conf);
 
 module.exports = {
   getCommitMessage

@@ -1,9 +1,13 @@
 const defaults = {
-  lintFileCheck: false,
-  gitlabFileCheck: false,
-  esLintCheck: false,
-  maxFileSize: 2,
-  commitMessageGlob: /.*/
+  preCommit: {
+    lintFileCheck: false,
+    gitlabFileCheck: false,
+    esLintCheck: false,
+    maxFileSize: 2
+  },
+  commitMsg: {
+    commitMessageGlob: /.*/
+  }
 };
 
 module.exports = defaults;

@@ -31,15 +31,19 @@ describe("pre-commit()", () => {
     it("Should exit if there are any oversized files", () => {
       sinon.stub(fs, "statSync").returns({ size: 3000000 });
       preCommitFunctions.handleDiffResult(null, mockResult, {
-        maxFileSize: 2
+        preCommit: {
+          maxFileSize: 2
+        }
       });
       expect(process.exit.calledWith(1)).to.be.true;
     });
     it("If the config object contains a gitlabFileCheck property, should call fileExists with the string '/.gitlab-ci.yml'", () => {
       sinon.stub(fs, "statSync").returns({ size: 30 });
       preCommitFunctions.handleDiffResult(null, mockResult, {
-        maxFileSize: 2,
-        gitlabFileCheck: true
+        preCommit: {
+          maxFileSize: 2,
+          gitlabFileCheck: true
+        }
       });
       expect(preCommitFunctions.fileExists.calledOnceWith("/.gitlab-ci.yml")).to
         .be.true;
@@ -48,15 +52,19 @@ describe("pre-commit()", () => {
     it("If the config object does not contain a gitlabFileCheck property, should not call fileExists with the string '/.gitlab-ci.yml'", () => {
       sinon.stub(fs, "statSync").returns({ size: 30 });
       preCommitFunctions.handleDiffResult(null, mockResult, {
-        maxFileSize: 2
+        preCommit: {
+          maxFileSize: 2
+        }
       });
       expect(preCommitFunctions.fileExists.called).to.be.false;
     });
     it("If the config object contains a esLintCheck property, should call fileExists with the string '/.eslintrc'", () => {
       sinon.stub(fs, "statSync").returns({ size: 30 });
       preCommitFunctions.handleDiffResult(null, mockResult, {
-        maxFileSize: 2,
-        esLintCheck: true
+        preCommit: {
+          maxFileSize: 2,
+          esLintCheck: true
+        }
       });
       expect(preCommitFunctions.fileExists.calledOnceWith("/.eslintrc")).to.be
         .true;
@@ -65,7 +73,7 @@ describe("pre-commit()", () => {
     it("If the config object does not contain a esLintCheck property, should not call fileExists with the string '/.eslintrc'", () => {
       sinon.stub(fs, "statSync").returns({ size: 30 });
       preCommitFunctions.handleDiffResult(null, mockResult, {
-        maxFileSize: 2
+        preCommit: { maxFileSize: 2 }
       });
       expect(preCommitFunctions.fileExists.called).to.be.false;
     });

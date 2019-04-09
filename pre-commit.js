@@ -1,8 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const chalk = require("chalk");
-const defaults = require("./configDefaults");
-const conf = require("rc")("preCommit", defaults);
 const filename = process.cwd();
 const simpleGit = require("simple-git")(filename);
 
@@ -13,7 +11,7 @@ const preCommit = {
       const stats = fs.statSync(file.file);
       const fileSizeInBytes = stats.size;
       const fileSizeInMegabytes = fileSizeInBytes / 1000000.0;
-      if (fileSizeInMegabytes > config.maxFileSize) {
+      if (fileSizeInMegabytes > config.preCommit.maxFileSize) {
         console.log(chalk.red(`${file.file}: File size is too big`));
         ++overSizedFiles;
       }
@@ -28,7 +26,7 @@ const preCommit = {
       process.exit(1);
       return;
     }
-    if (config.gitlabFileCheck) {
+    if (config.preCommit.gitlabFileCheck) {
       if (!this.fileExists("/.gitlab-ci.yml")) {
         console.log(
           chalk.red("No Gitlab config detected, aborting pre-commit checks")
@@ -39,7 +37,7 @@ const preCommit = {
       console.log(chalk.cyan(".gitlab-ci.yml file detected"));
     }
 
-    if (config.esLintCheck) {
+    if (config.preCommit.esLintCheck) {
       if (!this.fileExists("/.eslintrc")) {
         console.log(
           chalk.red("No esLint config detected, aborting pre-commit checks")
@@ -67,7 +65,5 @@ const preCommit = {
     });
   }
 };
-
-preCommit.check(conf);
 
 module.exports = preCommit;
