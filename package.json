@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha **/spec/**.spec.js",
     "test:report": "mocha --reporter mochawesome '**/spec/**.spec.js'",
-    "test:cover": "nyc --reporter=lcov --reporter=text npm run test"
+    "test:cover": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "keywords": [],
   "author": "Luke Brobbin & Joseph Berry",

@@ -1,6 +1,4 @@
 version: 2
-orbs:
-  codecov: codecov/codecov@1.0.2
 jobs:
   build:
     working_directory: ~/commit-hooks
@@ -25,14 +23,13 @@ jobs:
     steps:
       - checkout
       - run: npm install
+      - run: npm install codecov
       - run: npm run test:report
       - run: npm run test:cover
       - store_artifacts:
           path: mochawesome-report/
       - store_artifacts:
           path: coverage/
-      - codecov/upload:
-          file: coverage/
 
 workflows:
   version: 2
