@@ -4,7 +4,7 @@ const fs = require("fs");
 const chalk = require("chalk");
 const readline = require("readline");
 
-const getCommitMessage = config => {
+const getCommitMessage = (config, cb = () => {}) => {
   console.log(chalk.cyan("Beginning commit message checks"));
   // Contract checks commit message contains provided glob pattern
   const COMMIT_CONTRACT = config.commitMsg.glob;
@@ -51,6 +51,7 @@ const getCommitMessage = config => {
   });
   rl.on("close", () => {
     console.log(chalk.green("All Commit message checks passed"));
+    cb();
   });
 };
 
