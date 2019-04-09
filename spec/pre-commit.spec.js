@@ -97,6 +97,26 @@ describe("pre-commit()", () => {
       expect(preCommitFunctions.fileExists.called).to.be.false;
       done();
     });
+    it("If the config object contains a circleCi property, should call fileExists with the string '/.circleci'", done => {
+      preCommitFunctions.handleDiffResult(null, mockResult, {
+        preCommit: {
+          maxFileSize: 2,
+          circleCi: true
+        }
+      });
+      expect(preCommitFunctions.fileExists.calledOnceWith("/.circleci")).to.be
+        .true;
+      done();
+    });
+    it("If the config object does not contain a circleCi property, should not call fileExists with the string '/.circleci'", done => {
+      preCommitFunctions.handleDiffResult(null, mockResult, {
+        preCommit: {
+          maxFileSize: 2
+        }
+      });
+      expect(preCommitFunctions.fileExists.called).to.be.false;
+      done();
+    });
     it("If the config object contains a esLintCheck property, should call fileExists with the string '/.eslintrc'", done => {
       preCommitFunctions.handleDiffResult(null, mockResult, {
         preCommit: {

@@ -52,6 +52,15 @@ const preCommit = {
       }
       console.log(chalk.cyan(".gitlab-ci.yml file detected"));
     }
+    if (config.preCommit.circleCi) {
+      if (!this.fileExists("/.circleci")) {
+        console.log(
+          chalk.red("No CircleCi config detected, aborting pre-commit checks")
+        );
+        process.exit(1);
+        return;
+      }
+    }
 
     if (config.preCommit.esLintCheck) {
       if (!this.fileExists("/.eslintrc")) {

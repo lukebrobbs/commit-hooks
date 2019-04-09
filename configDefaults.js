@@ -1,6 +1,7 @@
 const defaults = {
   preCommit: {
     gitlabCi: false,
+    circleCi: false,
     esLintCheck: false,
     maxFileSize: 2,
     cypress: "",
