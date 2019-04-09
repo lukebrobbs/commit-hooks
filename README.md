@@ -1,6 +1,6 @@
 # Commit Hooks
 
-[![CircleCI](https://circleci.com/gh/lukebrobbs/commit-hooks.svg?style=svg)](https://circleci.com/gh/lukebrobbs/commit-hooks) &nbsp;&nbsp;&nbsp;[![codecov](https://codecov.io/gh/lukebrobbs/commit-hooks/branch/master/graph/badge.svg)](https://codecov.io/gh/lukebrobbs/commit-hooks)&nbsp;&nbsp;&nbsp;[![npmVersion](https://img.shields.io/npm/v/ddc-commit-hooks.svg)](https://www.npmjs.com/package/ddc-commit-hooks)
+[![CircleCI](https://circleci.com/gh/lukebrobbs/commit-hooks.svg?style=svg)](https://circleci.com/gh/lukebrobbs/commit-hooks)&nbsp;&nbsp;&nbsp;[![codecov](https://codecov.io/gh/lukebrobbs/commit-hooks/branch/master/graph/badge.svg)](https://codecov.io/gh/lukebrobbs/commit-hooks)&nbsp;&nbsp;&nbsp;[![npmVersion](https://img.shields.io/npm/v/ddc-commit-hooks.svg)](https://www.npmjs.com/package/ddc-commit-hooks)
 
 DDC-Commit-Hooks is designed to allow the implementation of pre-defined tasks to be implemented during git hooks. These tasks are intended to maximise code quality.
 
