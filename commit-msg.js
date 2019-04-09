@@ -7,7 +7,7 @@ const readline = require("readline");
 const getCommitMessage = (config, cb = () => {}) => {
   console.log(chalk.cyan("Beginning commit message checks"));
   // Contract checks commit message contains provided glob pattern
-  const COMMIT_CONTRACT = config.commitMsg.glob;
+  const COMMIT_CONTRACT = new RegExp(config.commitMsg.glob);
 
   // Stream commit message
   const rl = readline.createInterface({
