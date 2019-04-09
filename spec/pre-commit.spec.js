@@ -45,7 +45,7 @@ describe("pre-commit()", () => {
         .be.true;
       preCommitFunctions.fileExists.resetHistory();
     });
-    it("If the config object does not contain a gitlabFileCheck property, should not fileExists with the string '/.gitlab-ci.yml'", () => {
+    it("If the config object does not contain a gitlabFileCheck property, should not call fileExists with the string '/.gitlab-ci.yml'", () => {
       sinon.stub(fs, "statSync").returns({ size: 30 });
       preCommitFunctions.handleDiffResult(null, mockResult, {
         maxFileSize: 2
@@ -62,7 +62,7 @@ describe("pre-commit()", () => {
         .true;
       preCommitFunctions.fileExists.resetHistory();
     });
-    it("If the config object does not contain a esLintCheck property, should not fileExists with the string '/.eslintrc'", () => {
+    it("If the config object does not contain a esLintCheck property, should not call fileExists with the string '/.eslintrc'", () => {
       sinon.stub(fs, "statSync").returns({ size: 30 });
       preCommitFunctions.handleDiffResult(null, mockResult, {
         maxFileSize: 2
@@ -71,12 +71,10 @@ describe("pre-commit()", () => {
     });
   });
   describe("fileExists()", () => {
-    it("Should call process exit if the file does not exist", () => {
-      sinon.stub(process, "exit");
+    it("Should returtn false if the file does not exist", () => {
       sinon.stub(fs, "existsSync").returns(false);
-      preCommitFunctions.fileExists("spec/pre-commit.spec.js");
-      expect(process.exit.calledWith(1)).to.be.true;
-      process.exit.restore();
+      expect(preCommitFunctions.fileExists("spec/pre-commit.spec.js")).to.be
+        .false;
       fs.existsSync.restore();
     });
     it("Should return true if the file exists", () => {
