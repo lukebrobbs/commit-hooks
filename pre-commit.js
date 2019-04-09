@@ -7,6 +7,7 @@ const simpleGit = require("simple-git")(filename);
 const preCommit = {
   handleDiffResult(err, result, config) {
     let overSizedFiles = 0;
+    let filesWithDotOnly = [];
     for (const file of result.files) {
       const stats = fs.statSync(file.file);
       const fileSizeInBytes = stats.size;
