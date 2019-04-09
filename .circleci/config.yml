@@ -27,7 +27,7 @@ jobs:
       - run: npm install
       - run: npm run test:cover
       - codecov/upload:
-          file: ./coverage.lcov
+          file: ./coverage/lcov.info
       - store_artifacts:
           path: ./coverage/lcov.info
 
