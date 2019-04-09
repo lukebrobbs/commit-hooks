@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.4
 jobs:
   build:
     working_directory: ~/commit-hooks
@@ -23,13 +25,11 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npm install codecov
-      - run: npm run test:report
       - run: npm run test:cover
+      - codecov/upload:
+          file: ./coverage.lcov
       - store_artifacts:
-          path: mochawesome-report/
-      - store_artifacts:
-          path: ./coverage.lcov
+          path: ./coverage/lcov.info
 
 workflows:
   version: 2

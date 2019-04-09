@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha **/spec/**.spec.js",
     "test:report": "mocha --reporter mochawesome '**/spec/**.spec.js'",
-    "test:cover": "nyc --reporter=lcov --reporter=text-lcov > coverage.lcov && codecov"
+    "test:cover": "nyc --reporter=lcov --reporter=text-lcov npm run test "
   },
   "keywords": [
     "Git"
