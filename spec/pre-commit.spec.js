@@ -26,7 +26,9 @@ describe("pre-commit()", () => {
       preCommitFunctions.fileExists.restore();
     });
     afterEach(() => {
-      fs.statSync.restore();
+      if (fs.statSync.restore) {
+        fs.statSync.restore();
+      }
     });
     it("Should exit if there are any oversized files", () => {
       sinon.stub(fs, "statSync").returns({ size: 3000000 });
@@ -37,19 +39,19 @@ describe("pre-commit()", () => {
       });
       expect(process.exit.calledWith(1)).to.be.true;
     });
-    it("If the config object contains a gitlabFileCheck property, should call fileExists with the string '/.gitlab-ci.yml'", () => {
+    it("If the config object contains a gitlabCi property, should call fileExists with the string '/.gitlab-ci.yml'", () => {
       sinon.stub(fs, "statSync").returns({ size: 30 });
       preCommitFunctions.handleDiffResult(null, mockResult, {
         preCommit: {
           maxFileSize: 2,
-          gitlabFileCheck: true
+          gitlabCi: true
         }
       });
       expect(preCommitFunctions.fileExists.calledOnceWith("/.gitlab-ci.yml")).to
         .be.true;
       preCommitFunctions.fileExists.resetHistory();
     });
-    it("If the config object does not contain a gitlabFileCheck property, should not call fileExists with the string '/.gitlab-ci.yml'", () => {
+    it("If the config object does not contain a gitlabCi property, should not call fileExists with the string '/.gitlab-ci.yml'", () => {
       sinon.stub(fs, "statSync").returns({ size: 30 });
       preCommitFunctions.handleDiffResult(null, mockResult, {
         preCommit: {
@@ -76,6 +78,19 @@ describe("pre-commit()", () => {
         preCommit: { maxFileSize: 2 }
       });
       expect(preCommitFunctions.fileExists.called).to.be.false;
+    });
+    it("If cypress is truthy in config, should call file Exists with the correct arg", () => {
+      preCommitFunctions.handleDiffResult(null, mockResult, {
+        preCommit: { maxFileSize: 2, cypress: "./cypress" }
+      });
+      expect(preCommitFunctions.fileExists.calledOnceWith("./cypress")).to.be
+        .true;
+    });
+    it("If Robot is truthy in config, should call file Exists with the correct arg", () => {
+      preCommitFunctions.handleDiffResult(null, mockResult, {
+        preCommit: { maxFileSize: 2, robot: "./robot" }
+      });
+      expect(preCommitFunctions.fileExists.calledWith("./robot")).to.be.true;
     });
   });
   describe("fileExists()", () => {

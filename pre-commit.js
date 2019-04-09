@@ -20,13 +20,15 @@ const preCommit = {
     if (overSizedFiles) {
       console.log(
         chalk.red(
-          `Please un-stage ${overSizedFiles} oversized files before committing`
+          `Please un-stage ${overSizedFiles} oversized file${
+            overSizedFiles.length > 1 ? "s" : ""
+          } before committing`
         )
       );
       process.exit(1);
       return;
     }
-    if (config.preCommit.gitlabFileCheck) {
+    if (config.preCommit.gitlabCi) {
       if (!this.fileExists("/.gitlab-ci.yml")) {
         console.log(
           chalk.red("No Gitlab config detected, aborting pre-commit checks")
@@ -46,6 +48,27 @@ const preCommit = {
         return;
       }
       console.log(chalk.cyan(".esLint file detected"));
+    }
+
+    if (config.preCommit.cypress) {
+      if (!this.fileExists(config.preCommit.cypress)) {
+        console.log(
+          chalk.red("No Cypress directory detected, aborting pre-commit checks")
+        );
+        process.exit(1);
+        return;
+      }
+      console.log(chalk.cyan("Cypress directory detected"));
+    }
+    if (config.preCommit.robot) {
+      if (!this.fileExists(config.preCommit.robot)) {
+        console.log(
+          chalk.red("No Robot directory detected, aborting pre-commit checks")
+        );
+        process.exit(1);
+        return;
+      }
+      console.log(chalk.cyan("Cypress directory detected"));
     }
     console.log(chalk.green("All pre-commit checks passed"));
   },

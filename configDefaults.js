@@ -1,9 +1,10 @@
 const defaults = {
   preCommit: {
-    lintFileCheck: false,
-    gitlabFileCheck: false,
+    gitlabCi: false,
     esLintCheck: false,
-    maxFileSize: 2
+    maxFileSize: 2,
+    cypress: "",
+    robot: ""
   },
   commitMsg: {
     commitMessageGlob: /.*/
