@@ -4,7 +4,8 @@ const defaults = {
     esLintCheck: false,
     maxFileSize: 2,
     cypress: "",
-    robot: ""
+    robot: "",
+    dotOnlyCheck: false
   },
   commitMsg: {
     glob: /.*/,

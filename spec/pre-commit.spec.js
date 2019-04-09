@@ -6,13 +6,20 @@ const preCommitFunctions = require("../pre-commit");
 describe("pre-commit()", () => {
   describe("handleDiffResult()", () => {
     let mockResult;
+    let statSyncMock;
+    let readFileMock;
+    let exitMock;
+    let exit;
     before(() => {
-      sinon.stub(process, "exit");
+      exitMock = sinon.stub(process, "exit");
       sinon.spy(preCommitFunctions, "fileExists");
+      statSyncMock = sinon.stub(fs, "statSync");
+      readFileMock = sinon.stub(fs, "readFile");
+
       mockResult = {
         files: [
           {
-            file: "spec/pre-commit.spec.js",
+            file: "spec/mocks/line-length-too-long.txt",
             changes: 17,
             insertions: 15,
             deletions: 2,
@@ -21,27 +28,56 @@ describe("pre-commit()", () => {
         ]
       };
     });
-    after(done => {
-      process.exit.restore();
-      preCommitFunctions.fileExists.restore();
+    beforeEach(() => {
+      statSyncMock.returns({ size: 1 });
+      readFileMock.yields(null, "no dot only here");
+    });
+    afterEach(done => {
+      exitMock.resetHistory();
+      preCommitFunctions.fileExists.resetHistory();
+      statSyncMock.reset();
+      readFileMock.reset();
       done();
     });
-    afterEach(() => {
-      if (fs.statSync.restore) {
-        fs.statSync.restore();
-      }
-    });
-    it("Should exit if there are any oversized files", () => {
-      sinon.stub(fs, "statSync").returns({ size: 3000000 });
+    it("Should exit if there are any oversized files", done => {
+      statSyncMock.returns({ size: 3000000 });
       preCommitFunctions.handleDiffResult(null, mockResult, {
         preCommit: {
           maxFileSize: 2
         }
       });
-      expect(process.exit.calledWith(1)).to.be.true;
+      expect(statSyncMock.callCount).to.equal(1);
+      expect(process.exit.callCount).to.equal(1);
+      done();
     });
-    it("If the config object contains a gitlabCi property, should call fileExists with the string '/.gitlab-ci.yml'", () => {
-      sinon.stub(fs, "statSync").returns({ size: 30 });
+    it("If dotOnlyCheck set to true, should exit if any files contain a dot only", done => {
+      const newMock = JSON.parse(JSON.stringify(mockResult));
+      newMock.files[0].file = "spec/mocks/file-with-only.txt";
+      readFileMock.yields(null, "there is a .only here");
+      preCommitFunctions.handleDiffResult(null, newMock, {
+        preCommit: {
+          maxFileSize: 2,
+          dotOnlyCheck: true
+        }
+      });
+      expect(readFileMock.callCount).to.equal(1);
+      expect(process.exit.callCount).to.equal(1);
+      done();
+    });
+    it("If dotOnlyCheck set to false, should not call process.exit if .only present", done => {
+      const newMock = JSON.parse(JSON.stringify(mockResult));
+      newMock.files[0].file = "spec/mocks/file-with-only.txt";
+      readFileMock.yields(null, "there is a .only here");
+      preCommitFunctions.handleDiffResult(null, newMock, {
+        preCommit: {
+          maxFileSize: 2
+        }
+      });
+      expect(readFileMock.called).to.be.false;
+      expect(process.exit.called).to.be.false;
+      done();
+    });
+    it("If the config object contains a gitlabCi property, should call fileExists with the string '/.gitlab-ci.yml'", done => {
       preCommitFunctions.handleDiffResult(null, mockResult, {
         preCommit: {
           maxFileSize: 2,
@@ -50,19 +86,18 @@ describe("pre-commit()", () => {
       });
       expect(preCommitFunctions.fileExists.calledOnceWith("/.gitlab-ci.yml")).to
         .be.true;
-      preCommitFunctions.fileExists.resetHistory();
+      done();
     });
-    it("If the config object does not contain a gitlabCi property, should not call fileExists with the string '/.gitlab-ci.yml'", () => {
-      sinon.stub(fs, "statSync").returns({ size: 30 });
+    it("If the config object does not contain a gitlabCi property, should not call fileExists with the string '/.gitlab-ci.yml'", done => {
       preCommitFunctions.handleDiffResult(null, mockResult, {
         preCommit: {
           maxFileSize: 2
         }
       });
       expect(preCommitFunctions.fileExists.called).to.be.false;
+      done();
     });
-    it("If the config object contains a esLintCheck property, should call fileExists with the string '/.eslintrc'", () => {
-      sinon.stub(fs, "statSync").returns({ size: 30 });
+    it("If the config object contains a esLintCheck property, should call fileExists with the string '/.eslintrc'", done => {
       preCommitFunctions.handleDiffResult(null, mockResult, {
         preCommit: {
           maxFileSize: 2,
@@ -71,39 +106,41 @@ describe("pre-commit()", () => {
       });
       expect(preCommitFunctions.fileExists.calledOnceWith("/.eslintrc")).to.be
         .true;
-      preCommitFunctions.fileExists.resetHistory();
+      done();
     });
-    it("If the config object does not contain a esLintCheck property, should not call fileExists with the string '/.eslintrc'", () => {
-      sinon.stub(fs, "statSync").returns({ size: 30 });
+    it("If the config object does not contain a esLintCheck property, should not call fileExists with the string '/.eslintrc'", done => {
       preCommitFunctions.handleDiffResult(null, mockResult, {
         preCommit: { maxFileSize: 2 }
       });
       expect(preCommitFunctions.fileExists.called).to.be.false;
+      done();
     });
-    it("If cypress is truthy in config, should call file Exists with the correct arg", () => {
+    it("If cypress is truthy in config, should call file Exists with the correct arg", done => {
       preCommitFunctions.handleDiffResult(null, mockResult, {
         preCommit: { maxFileSize: 2, cypress: "./cypress" }
       });
       expect(preCommitFunctions.fileExists.calledOnceWith("./cypress")).to.be
         .true;
+      done();
     });
-    it("If Robot is truthy in config, should call file Exists with the correct arg", () => {
+    it("If Robot is truthy in config, should call file Exists with the correct arg", done => {
       preCommitFunctions.handleDiffResult(null, mockResult, {
         preCommit: { maxFileSize: 2, robot: "./robot" }
       });
       expect(preCommitFunctions.fileExists.calledWith("./robot")).to.be.true;
+      done();
     });
   });
   describe("fileExists()", () => {
-    it("Should returtn false if the file does not exist", () => {
+    it("Should returns false if the file does not exist", () => {
       sinon.stub(fs, "existsSync").returns(false);
       expect(preCommitFunctions.fileExists("spec/pre-commit.spec.js")).to.be
         .false;
       fs.existsSync.restore();
     });
     it("Should return true if the file exists", () => {
-      expect(preCommitFunctions.fileExists("spec/pre-commit.spec.js")).to.be
-        .true;
+      const result = preCommitFunctions.fileExists("spec/pre-commit.spec.js");
+      expect(result).to.be.true;
     });
   });
 });

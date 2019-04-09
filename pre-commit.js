@@ -7,7 +7,6 @@ const simpleGit = require("simple-git")(filename);
 const preCommit = {
   handleDiffResult(err, result, config) {
     let overSizedFiles = 0;
-    let filesWithDotOnly = [];
     for (const file of result.files) {
       const stats = fs.statSync(file.file);
       const fileSizeInBytes = stats.size;
@@ -29,6 +28,20 @@ const preCommit = {
       process.exit(1);
       return;
     }
+
+    if (config.preCommit.dotOnlyCheck) {
+      for (const file of result.files) {
+        fs.readFile(file.file, "utf8", (err, data) => {
+          if (data.indexOf(".only") >= 0) {
+            console.log(
+              chalk.red(`${file.file}: Contains a '.only', please remove`)
+            );
+            process.exit(1);
+          }
+        });
+      }
+    }
+
     if (config.preCommit.gitlabCi) {
       if (!this.fileExists("/.gitlab-ci.yml")) {
         console.log(
@@ -61,6 +74,7 @@ const preCommit = {
       }
       console.log(chalk.cyan("Cypress directory detected"));
     }
+
     if (config.preCommit.robot) {
       if (!this.fileExists(config.preCommit.robot)) {
         console.log(
@@ -71,8 +85,10 @@ const preCommit = {
       }
       console.log(chalk.cyan("Cypress directory detected"));
     }
+
     console.log(chalk.green("All pre-commit checks passed"));
   },
+
   fileExists(filePath) {
     if (fs.existsSync(path.join(process.env.PWD, filePath))) {
       console.log(chalk.cyan(`${filePath} file found`));
@@ -82,6 +98,7 @@ const preCommit = {
       return false;
     }
   },
+
   check(config) {
     console.log(chalk.cyan("Beginning pre-commit checks"));
     simpleGit.diffSummary(["--cached"], (err, result) => {
