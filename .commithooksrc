@@ -1,5 +1,9 @@
 {
     "preCommit": {
         "circleCi": true
-    }
+    },
+    "commitMsg": {
+    "maxLineLength": 79,
+    "titleLength": 2
+  }
 }
