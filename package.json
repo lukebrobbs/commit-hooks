@@ -9,6 +9,12 @@
     "test:cover": "nyc --require ts-node/register --reporter=lcov --reporter=text npm run test",
     "build": "tsc --pretty"
   },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ]
+  },
   "keywords": [
     "Git"
   ],
