@@ -2,7 +2,7 @@
   "name": "ddc-commit-hooks",
   "version": "1.2.5",
   "description": "Configurable commit hook setup",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "mocha --require ts-node/register **/spec/**.spec.js",
     "test:report": "mocha --require ts-node/register --reporter mochawesome '**/spec/**.spec.js'",
@@ -14,7 +14,7 @@
   "author": "Luke Brobbin & Joseph Berry",
   "license": "ISC",
   "bin": {
-    "ddc-commit": "./index.js"
+    "ddc-commit": "./dist/index.js"
   },
   "devDependencies": {
     "@types/node": "^11.13.2",
