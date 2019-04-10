@@ -64,14 +64,15 @@ The following options are available in v1.0.0 :
 
 Any of these properties will work inside a `preCommit` key:
 
-| Property        | Type      | Default | Description                                        |
-| --------------- | --------- | ------- | -------------------------------------------------- |
-| **gitlabCi**    | `Boolean` | `false` | Checks for the presence of a `.gitlab-ci.yml` file |
-| **circleCi**    | `Boolean` | `false` | Checks for the presence of a `.circleci` directory |
-| **esLintCheck** | `Boolean` | `false` | Checks for the presence of a `.eslintrc` file      |
-| **maxFileSize** | `Number`  | `2`     | Max size in mb allowed for any single file         |
-| **cypress**     | `String`  | `""`    | Directory of cypress tests if applicable           |
-| **robot**       | `String`  | `""`    | Directory of Robot Framework tests if applicable   |
+| Property         | Type      | Default | Description                                        |
+| ---------------- | --------- | ------- | -------------------------------------------------- |
+| **gitlabCi**     | `Boolean` | `false` | Checks for the presence of a `.gitlab-ci.yml` file |
+| **circleCi**     | `Boolean` | `false` | Checks for the presence of a `.circleci` directory |
+| **esLintCheck**  | `Boolean` | `false` | Checks for the presence of a `.eslintrc` file      |
+| **maxFileSize**  | `Number`  | `2`     | Max size in mb allowed for any single file         |
+| **cypress**      | `String`  | `""`    | Directory of cypress tests if applicable           |
+| **robot**        | `String`  | `""`    | Directory of Robot Framework tests if applicable   |
+| **dotOnlycheck** | `Boolean` | `false` | Searches test files for .only                      |
 
 ### commitMsg
 
