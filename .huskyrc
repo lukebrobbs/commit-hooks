@@ -1,6 +1,6 @@
 {
   "hooks": {
-    "pre-commit": "npm test && node ./index.js -preCommit",
-    "commit-msg": "node ./index.js -commitMsg"
+    "pre-commit": "npm test && node ./dist/index.js -preCommit",
+    "commit-msg": "node ./dist/index.js -commitMsg"
   }
 }
