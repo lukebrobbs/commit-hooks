@@ -1,6 +1,6 @@
 {
   "name": "ddc-commit-hooks",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Configurable commit hook setup",
   "main": "./dist/index.js",
   "scripts": {
