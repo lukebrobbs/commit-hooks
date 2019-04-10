@@ -3,8 +3,9 @@
 const fs = require("fs");
 const chalk = require("chalk");
 const readline = require("readline");
+import * as Config from "./configDefaults";
 
-const getCommitMessage = (config, cb = () => {}) => {
+const getCommitMessage = (config: Config.config, cb = () => {}) => {
   console.log(chalk.cyan("Beginning commit message checks"));
   // Contract checks commit message contains provided glob pattern
   const COMMIT_CONTRACT = new RegExp(config.commitMsg.glob);
@@ -16,7 +17,7 @@ const getCommitMessage = (config, cb = () => {}) => {
   });
 
   let index = 0;
-  rl.on("line", line => {
+  rl.on("line", (line: string) => {
     if (!index) {
       // Tests message subject against the COMMIT_CONTRACT
       if (!COMMIT_CONTRACT.test(line)) {
@@ -55,6 +56,6 @@ const getCommitMessage = (config, cb = () => {}) => {
   });
 };
 
-module.exports = {
+export = {
   getCommitMessage
 };

@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const fs = require("fs");
 const sinon = require("sinon");
-const preCommitFunctions = require("../pre-commit");
+const preCommitFunctions = require("../src/pre-commit.ts");
 
 describe("pre-commit()", () => {
   describe("handleDiffResult()", () => {

@@ -3,17 +3,26 @@ const path = require("path");
 const chalk = require("chalk");
 const filename = process.cwd();
 const simpleGit = require("simple-git")(filename);
+import * as Config from "./configDefaults";
 
 const preCommit = {
-  handleDiffResult(err, result, config) {
-    let overSizedFiles = 0;
+  handleDiffResult(
+    err: null,
+    result: { files: any },
+    config: Config.config
+  ): void {
+    let overSizedFiles: number = 0;
     for (const file of result.files) {
-      const stats = fs.statSync(file.file);
-      const fileSizeInBytes = stats.size;
-      const fileSizeInMegabytes = fileSizeInBytes / 1000000.0;
-      if (fileSizeInMegabytes > config.preCommit.maxFileSize) {
-        console.log(chalk.red(`${file.file}: File size is too big`));
-        ++overSizedFiles;
+      try {
+        const stats = fs.statSync(file.file);
+        const fileSizeInBytes: number = stats.size;
+        const fileSizeInMegabytes: number = fileSizeInBytes / 1000000.0;
+        if (fileSizeInMegabytes > config.preCommit.maxFileSize) {
+          console.log(chalk.red(`${file.file}: File size is too big`));
+          ++overSizedFiles;
+        }
+      } catch (error) {
+        continue;
       }
     }
 
@@ -21,7 +30,7 @@ const preCommit = {
       console.log(
         chalk.red(
           `Please un-stage ${overSizedFiles} oversized file${
-            overSizedFiles.length > 1 ? "s" : ""
+            overSizedFiles > 1 ? "s" : ""
           } before committing`
         )
       );
@@ -31,7 +40,7 @@ const preCommit = {
 
     if (config.preCommit.dotOnlyCheck) {
       for (const file of result.files) {
-        fs.readFile(file.file, "utf8", (err, data) => {
+        fs.readFile(file.file, "utf8", (err: null, data: string) => {
           if (data.indexOf(".only") >= 0) {
             console.log(
               chalk.red(`${file.file}: Contains a '.only', please remove`)
@@ -73,7 +82,7 @@ const preCommit = {
       console.log(chalk.cyan(".esLint file detected"));
     }
 
-    if (config.preCommit.cypress) {
+    if (config.preCommit.cypress && config.preCommit.cypress.length) {
       if (!this.fileExists(config.preCommit.cypress)) {
         console.log(
           chalk.red("No Cypress directory detected, aborting pre-commit checks")
@@ -84,7 +93,7 @@ const preCommit = {
       console.log(chalk.cyan("Cypress directory detected"));
     }
 
-    if (config.preCommit.robot) {
+    if (config.preCommit.robot && config.preCommit.robot.length) {
       if (!this.fileExists(config.preCommit.robot)) {
         console.log(
           chalk.red("No Robot directory detected, aborting pre-commit checks")
@@ -98,7 +107,7 @@ const preCommit = {
     console.log(chalk.green("All pre-commit checks passed"));
   },
 
-  fileExists(filePath) {
+  fileExists(filePath: string): boolean {
     if (fs.existsSync(path.join(process.env.PWD, filePath))) {
       console.log(chalk.cyan(`${filePath} file found`));
       return true;
@@ -108,12 +117,12 @@ const preCommit = {
     }
   },
 
-  check(config) {
+  check(config: Config.config): void {
     console.log(chalk.cyan("Beginning pre-commit checks"));
-    simpleGit.diffSummary(["--cached"], (err, result) => {
+    simpleGit.diffSummary(["--cached"], (err: null, result: { files: any }) => {
       this.handleDiffResult(err, result, config);
     });
   }
 };
 
-module.exports = preCommit;
+export = preCommit;
