@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha --require ts-node/register **/spec/**.spec.js",
     "test:report": "mocha --require ts-node/register --reporter mochawesome '**/spec/**.spec.js'",
-    "test:cover": "nyc --require ts-node/register --reporter=lcov --reporter=text npm run test"
+    "test:cover": "nyc --require ts-node/register --reporter=lcov --reporter=text npm run test",
+    "build": "tsc --pretty"
   },
   "keywords": [
     "Git"
