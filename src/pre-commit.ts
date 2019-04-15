@@ -40,8 +40,8 @@ const preCommit = {
 
     if (config.preCommit.dotOnlyCheck) {
       for (const file of result.files) {
-        fs.readFile(file.file, "utf8", (err: null, data: string) => {
-          if (data.indexOf(".only") >= 0) {
+        fs.readFile(file.file, "utf8", (err: null, data: string | null) => {
+          if (data && data.indexOf(".only") >= 0) {
             console.log(
               chalk.red(`${file.file}: Contains a '.only', please remove`)
             );
